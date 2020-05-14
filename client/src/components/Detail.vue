@@ -1,6 +1,9 @@
 <template>
   <div>
-    <div><router-link to="/">Home /</router-link> {{ name }}</div>
+    <div>
+      <router-link to="/">Home /</router-link>
+      {{ name }}
+    </div>
     <div class="graph">
       <ul class="months">
         <li>Jan</li>
@@ -38,7 +41,7 @@
     <div v-if="showEntry">
       <p>On {{selectedEntry.date}} {{emoji}}</p>
       <p v-if="selectedEntry.note">{{selectedEntry.note}}</p>
-      <button type="button" class="btn btn-primary" v-on:click="edit(selectedEntry)">edit?</button>
+      <button type="button" class="btn btn-primary" v-on:click="edit(selectedEntry)">edit</button>
     </div>
     <div v-if="showOptions">
       <form>
@@ -73,7 +76,7 @@ export default {
       showOptions: false,
       selectedEntry: "",
       mood: "",
-      showEntry: false,
+      showEntry: false
     };
   },
   mounted() {
@@ -103,7 +106,7 @@ export default {
     },
     populatePastDates(formattedEntries) {
       var entries = [];
-      var today = new Date();
+      var today = new Date()
       var d1 = new Date(`${today.getFullYear()}-01-01`);
       while (d1.getTime() < today.getTime()) {
         var d2 = new Date(d1.setDate(d1.getDate() + 1));
@@ -113,8 +116,7 @@ export default {
           value: formattedEntries[formattedDate]
             ? formattedEntries[formattedDate].value
             : 0,
-          date: formattedDate,
-
+          date: formattedDate
         });
       }
       return entries;
@@ -129,7 +131,7 @@ export default {
     cancel() {
       this.showEntry = false;
       this.showOptions = false;
-      this.selectedEntry = '';
+      this.selectedEntry = "";
     },
     show(entry) {
       this.selectedEntry = entry;
@@ -138,14 +140,27 @@ export default {
     },
     edit(entry) {
       this.selectedEntry = entry;
-      this.showEntry = false
+      this.showEntry = false;
       this.showOptions = true;
     },
     update() {
-      const oldEntry = this.entriesByDate[this.selectedEntry.date]
-      const oldMood = oldEntry.value
-      const oldNote = oldEntry.note
-      if (this.selectedEntry.note === oldNote || this.selectedEntry.value === oldMood) {
+      const oldEntry = this.entriesByDate[this.selectedEntry.date];
+      if (!oldEntry) {
+        this.selectedEntry.note = this.selectedEntry.note ? this.selectedEntry.note : ''
+        this.$entriesServices.create(this.selectedEntry).then(() => {
+          this.showOptions = false;
+          this.selectedEntry = "";
+          this.getAll();
+        });
+        return;
+      }
+      const oldMood = oldEntry.value;
+      const oldNote = oldEntry.note;
+      const hasNoChanges = !(
+        this.selectedEntry.note !== oldNote ||
+        this.selectedEntry.value !== oldMood
+      );
+      if (hasNoChanges) {
         return;
       }
       const data = {
@@ -155,16 +170,16 @@ export default {
       this.$entriesServices
         .updateEntry(data)
         .then(() => {
-          this.entries[this.selectedEntry.date] = data
-          this.showOptions = false
-          this.selectedEntry = ''
+          this.entries[this.selectedEntry.date] = data;
+          this.showOptions = false;
+          this.selectedEntry = "";
         })
         .catch(e => console.log(e));
     }
   },
   computed: {
     emoji() {
-      return ['😶','😐','😃','😞'][this.selectedEntry.value]
+      return ["😶", "😐", "😃", "😞"][this.selectedEntry.value];
     }
   }
 };
