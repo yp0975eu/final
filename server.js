@@ -4,7 +4,7 @@ const entriesApi = require('./routes/entries')
 const path = require('path')
 
 const app = express()
-app.use(express.static(__dirname, 'client', 'dist'))
+app.use(express.static(path.join(__dirname, 'client', 'dist')))
 
 app.use(bodyParser.json())
 app.use('/api', entriesApi)
