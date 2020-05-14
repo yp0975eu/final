@@ -1,0 +1,5 @@
+node_modules
+db.readme
+.vscode
+DS_Store
+*.sqlite

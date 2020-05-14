@@ -1,0 +1,27 @@
+{
+  "name": "final-project",
+  "author": "yp0975eu",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "nodemon": "nodemon server.js",
+    "db:drop": "sequelize db:seed:undo",
+    "db:migrate": "sequelize db:migrate",
+    "db:seed": "sequelize db:seed:all",
+    "generate:entries": "sequelize model:generate --name Entries --attributes date:date,value:integer --force",
+    "vue": "vue"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "pg": "^8.1.0",
+    "sequelize": "^5.21.8",
+    "sequelize-cli": "^5.5.1"
+  },
+  "devDependencies": {
+    "@vue/cli": "^4.3.1",
+    "nodemon": "^2.0.3",
+    "sqlite3": "^4.2.0"
+  }
+}

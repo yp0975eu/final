@@ -1,0 +1,10 @@
+{
+  "development": {
+    "storage": "development.sqlite",
+    "dialect": "sqlite"
+  },
+  "production": {
+    "use_env_variable": "DATABASE_URL",
+    "dialect": "postgress"
+  }
+}
