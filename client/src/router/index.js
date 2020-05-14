@@ -1,5 +1,4 @@
 import Router from 'vue-router'
-import Activities from '@/components/Activities'
 import GetStarted from '@/components/GetStarted'
 import Detail from '@/components/Detail'
 
@@ -9,10 +8,6 @@ export default new Router({
     {
       path: '/',
       component: GetStarted
-    },
-    {
-      path: '/activities',
-      component: Activities
     },
     {
       path: '/detail/:name',
